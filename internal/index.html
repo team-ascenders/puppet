@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.20.1.min.js"></script>
+    <script src="../api.js"></script>
 </head>
 <body>
-    <button onClick="sendResponse(this)">boom</button>
+    <div>
+        OK I've added
+        <input type="text" value="item">
+        to this section.
+    </div>
+    <button onClick="sendResponse('OK I've added ' + item +' to this section')">boom</button>
     <script>
-    var pubnub = new PubNub({
-        subscribeKey: 'sub-c-068dc258-1d09-11e8-a9da-22fca5d72012',
-        publishKey: 'pub-c-2f4b5653-d80e-4da0-af6d-427d318cade8'
-    });
     var handleCallback = function(status, response) {};
-
-    var sendResponse = function(sender) {
-        var message = sender.innerHTML;
-        pubnub.publish({message: message, channel: 'Main'}, handleCallback);
-    };
     </script>
 </body>
