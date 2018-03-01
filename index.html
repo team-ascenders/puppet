@@ -8,14 +8,15 @@
 </head>
 <body>
     <script>
-        var API = API();
         API.statusHandler = function(status) {
-            if (status == "PNConnectedCategory") {
+            if (status == "connected") {
+            } else if (status == "received") {
             } else {
             }
         };
         API.responseHandler = function(response) {
             var message = response.message;
+            API.speak(message);
         };
     </script>
 </body>

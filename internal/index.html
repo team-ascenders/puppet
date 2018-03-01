@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.20.1.min.js"></script>
+    <script src="../bower_components/watson-speech/dist/watson-speech.min.js"></script>
     <script src="../api.js"></script>
 </head>
 <body>
     <div>
         OK I've added
-        <input type="text" value="item">
+        <input id="addItemField" type="text" placeholder="item">
         to this section.
     </div>
-    <button onClick="sendResponse('OK I've added ' + item +' to this section')">boom</button>
+    <button onclick="addItem()">send</button>
+
     <script>
-    var handleCallback = function(status, response) {};
+    var addItem = function() { send("OK! I've added "+valueFor("addItemField")+" to this section!"); }
+
+    var send = function(message) {
+        API.send(message, function(status, response) {
+
+        });
+    };
     </script>
 </body>
