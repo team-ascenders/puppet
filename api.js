@@ -44,6 +44,9 @@ function API() {
             }
         };
         request.open('GET', 'https://stream.watsonplatform.net/authorization/api/v1/token?url=https://stream.watsonplatform.net/text-to-speech/api');
+        request.setRequestHeader("Access-Control-Allow-Origin", "https://team-jane.github.io");
+        request.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        request.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept");
         request.setRequestHeader("Authorization", "Basic " + btoa("8d444664-2dd9-4aee-a3cd-69f3bcb1c0f9:eLJQtO1GiNvK"));
         request.send();
     };
