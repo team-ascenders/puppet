@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.20.1.min.js"></script>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+</head>
+<body>
+    <script>
+    var pubnub = new PubNub({
+        subscribeKey: 'sub-c-068dc258-1d09-11e8-a9da-22fca5d72012'
+    });
+    var handleStatus = function(statusEvent) {
+        if (statusEvent.category === "PNConnectedCategory") {
+        } else if (statusEvent.category === "PNUnknownCategory") {
+            var newState = { new: 'error' };
+            pubnub.setState(
+                { state: newState },
+                function (status) { console.log(statusEvent.errorData.message) }
+            );
+        }
+    };
+    var handleMessage = function(message) {
+        responsiveVoice.speak(message.message);
+    }
+    pubnub.addListener({
+        status: handleStatus,
+        message: handleMessage
+    });
+    pubnub.subscribe({channels: ['Main']})
+    </script>
+</body>
