@@ -15,6 +15,11 @@
             max-width: 800px;
             margin:0 auto;
         }
+        .expandedTextField {
+            width: 300px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
         .generalTextField {
             width: 100px;
             margin-left: 5px;
@@ -34,6 +39,9 @@
             position: absolute;
             right: 0px;
             margin-right: 30px;
+        }
+        .radioOption {
+            margin-left: 30px;
         }
     </style>
 </head>
@@ -56,15 +64,43 @@
                 </button>
             </div>
             <div class="row rowContainer collection-item">
-                <div class="rowItem">OK I've added</div>
+                <div class="rowItem">OK I've removed</div>
                 <div class="generalTextField rowItem">
                     <div class="input-field inline">
-                        <input id="" type="text">
-                        <label class="active" for="addItemField">Item</label>
+                        <input id="removeItemField" type="text">
+                        <label class="active" for="removeItemField">item</label>
                     </div>
                 </div>
-                <div class="rowItem">to this section.</div>
-                <button onclick="addItem()" class="waves-effect waves-light btn rowItem sendButton">
+                <div class="rowItem">from this section.</div>
+                <button onclick="removeItem()" class="waves-effect waves-light btn rowItem sendButton">
+                    <i class="material-icons right">send</i>
+                    send
+                </button>
+            </div>
+            <div class="row rowContainer collection-item">
+                <div class="rowItem">This section contains</div>
+                <div class="expandedTextField rowItem">
+                    <div class="input-field inline expandedTextField">
+                        <input id="listItemField" type="text">
+                        <label class="active" for="listItemField">item(s)</label>
+                    </div>
+                </div>
+                <button onclick="listItems()" class="waves-effect waves-light btn rowItem sendButton">
+                    <i class="material-icons right">send</i>
+                    send
+                </button>
+            </div>
+            <div class="row rowContainer collection-item">
+                <div class="rowItem">Is this item in my Susan?</div>
+                <p class="radioOption">
+                  <input name="checkItem" type="radio" id="yesRadio"/>
+                  <label for="yesRadio">Yes</label>
+                </p>
+                <p class="radioOption">
+                  <input name="checkItem" type="radio" id="noRadio"/>
+                  <label for="noRadio">No</label>
+                </p>
+                <button onclick="checkItem()" class="waves-effect waves-light btn rowItem sendButton">
                     <i class="material-icons right">send</i>
                     send
                 </button>
@@ -87,6 +123,26 @@
 
     <script>
     var addItem = function() { send("OK, I've added "+valueFor("addItemField")+" to this section."); }
+    var removeItem = function() { send("OK, I've removed "+valueFor("removeItemField")+" from this section."); }
+    var listItems = function() { send("This section contains "+valueFor("listItemField")+"."); }
+    var checkItem = function() {
+        var radios = document.getElementsByName("checkItem");
+        for (var i = 0, length = radios.length; i < length; i++)
+        {
+            if (radios[i].checked) {
+                switch(i) {
+                    case 0:
+                        send("Yes, this item is in your susan.");
+                        break;
+                    case 1:
+                        send("No, this item is not in your susan.");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
     var sendCustom = function() { send(valueFor("customField")); }
     var send = function(message) {
         API.send(message, function(status, response) {
