@@ -43,13 +43,8 @@ function API() {
                 typeof callback == 'function' && callback(request.responseText);
             }
         };
-        request.open('GET', 'https://watson-speech.mybluemix.net/api/text-to-speech/token');
+        request.open('GET', 'https://team-jane.herokuapp.com/token');
         request.send();
-        // fetch('https://watson-speech.mybluemix.net/api/text-to-speech/token')
-        // .then(function(response) {
-        //     console.log(response.text);
-        //     callback(response.text);
-        // });
     };
 
     obj.pubnub = new PubNub({
