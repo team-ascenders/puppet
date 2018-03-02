@@ -30,9 +30,6 @@ function API() {
                 autoplay: true
             });
             sound.play();
-            sound.on('end', function() {
-                typeof obj.statusHandler == 'function' && obj.statusHandler("connected");
-            });
             typeof obj.statusHandler == 'function' && obj.statusHandler("playing");
             typeof callback == 'function' && callback(evt);
         };
