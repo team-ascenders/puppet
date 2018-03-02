@@ -30,18 +30,9 @@ function API() {
                 autoplay: true
             });
             sound.play();
-            // var audio = document.getElementById('speech');
-            // var audioSource = document.getElementById('speechSource');
-            // audioSource.src = audioURL;
-            // audio.onended = function() { typeof obj.statusHandler == 'function' && obj.statusHandler("connected"); };
-            // var promise = audio.play();
-            // if (promise !== undefined) {
-            //     promise.catch(error => {
-            //
-            //     }).then(()=> {
-            //
-            //     });
-            // }
+            sound.on('end', function() {
+                typeof obj.statusHandler == 'function' && obj.statusHandler("connected");
+            });
             typeof obj.statusHandler == 'function' && obj.statusHandler("playing");
             typeof callback == 'function' && callback(evt);
         };
