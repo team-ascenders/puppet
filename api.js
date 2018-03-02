@@ -6,7 +6,7 @@ var valueFor = function(id) { return document.getElementById(id).value };
 function API() {
     var obj = new Object();
     obj.send = function(message, callback) { obj.pubnub.publish({message: message, channel: 'Main'}, callback); };
-    obj.speak = function(text, callback) {
+    obj.speak = function(text) {
         var voice = 'en-US_LisaVoice';
         var token = obj.watsonToken;
         var format = 'audio/mpeg';
@@ -15,26 +15,30 @@ function API() {
           + '&watson-token=' + token;
         var websocket = new WebSocket(wsURI);
         var audioParts = [];
+        var words = [];
         websocket.onopen = function(evt) {
-            var message = { text: text, accept: format };
-            websocket.send(JSON.stringify(message));
+            websocket.send(JSON.stringify({ text: text, accept: format, timings: ['words'] }));
         };
         websocket.onerror = function(evt) { console.log(evt) };
         websocket.onclose = function(evt) {
             var audioBlob = new Blob(audioParts, {type: format});
             var audioURL = URL.createObjectURL(audioBlob);
-
             var sound = new Howl({
                 src: [audioURL],
                 format: ['mp3'],
                 autoplay: true
             });
-            sound.play();
-            typeof obj.statusHandler == 'function' && obj.statusHandler("playing");
-            typeof callback == 'function' && callback(evt);
+            sound.once('load', function(){
+                typeof obj.statusHandler == 'function' && obj.statusHandler("playing", words);
+                sound.play();
+            });
+            sound.on('end', function(){ typeof obj.statusHandler == 'function' && obj.statusHandler("connected"); });
         };
         websocket.onmessage = function(evt) {
-            if (typeof evt.data === 'string') { console.log('Received message: ', evt.data); }
+            if (typeof evt.data === 'string') {
+                var word = JSON.parse(evt.data).words;
+                if (word) { words = words.concat(word); }
+            }
             else { audioParts.push(evt.data); }
         };
     }

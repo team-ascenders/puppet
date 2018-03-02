@@ -14,7 +14,7 @@
     <button onclick="addItem()">send</button>
 
     <script>
-    var addItem = function() { send("OK! I've added "+valueFor("addItemField")+" to this section!"); }
+    var addItem = function() { send("OK, I've added "+valueFor("addItemField")+" to this section."); }
 
     var send = function(message) {
         API.send(message, function(status, response) {
