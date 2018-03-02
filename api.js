@@ -23,9 +23,25 @@ function API() {
         websocket.onclose = function(evt) {
             var audioBlob = new Blob(audioParts, {type: format});
             var audioURL = URL.createObjectURL(audioBlob);
-            var audio = new Audio(audioURL);
-            audio.onended = function() { typeof obj.statusHandler == 'function' && obj.statusHandler("connected"); };
-            audio.play();
+
+            var sound = new Howl({
+                src: [audioURL],
+                format: [format],
+                autoplay: true
+            });
+            sound.play();
+            // var audio = document.getElementById('speech');
+            // var audioSource = document.getElementById('speechSource');
+            // audioSource.src = audioURL;
+            // audio.onended = function() { typeof obj.statusHandler == 'function' && obj.statusHandler("connected"); };
+            // var promise = audio.play();
+            // if (promise !== undefined) {
+            //     promise.catch(error => {
+            //
+            //     }).then(()=> {
+            //
+            //     });
+            // }
             typeof obj.statusHandler == 'function' && obj.statusHandler("playing");
             typeof callback == 'function' && callback(evt);
         };
