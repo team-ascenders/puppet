@@ -43,9 +43,13 @@ function API() {
                 typeof callback == 'function' && callback(request.responseText);
             }
         };
-        request.open('GET', 'https://stream.watsonplatform.net/authorization/api/v1/token?url=https://stream.watsonplatform.net/text-to-speech/api?login=8d444664-2dd9-4aee-a3cd-69f3bcb1c0f9&password=eLJQtO1GiNvK');
-        request.setRequestHeader("Content-type", "text/plain");
+        request.open('GET', 'https://watson-speech.mybluemix.net/api/text-to-speech/token');
         request.send();
+        // fetch('https://watson-speech.mybluemix.net/api/text-to-speech/token')
+        // .then(function(response) {
+        //     console.log(response.text);
+        //     callback(response.text);
+        // });
     };
 
     obj.pubnub = new PubNub({
