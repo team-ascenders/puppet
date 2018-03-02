@@ -26,7 +26,7 @@ function API() {
 
             var sound = new Howl({
                 src: [audioURL],
-                format: [format],
+                format: ['mp3'],
                 autoplay: true
             });
             sound.play();
