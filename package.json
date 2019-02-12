@@ -2,7 +2,7 @@
   "name": "puppet",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://team-ascenders.github.io/puppet",
+  "homepage": "http://team-ascenders.github.io/puppet/",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
@@ -36,6 +36,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "terser": "^3.14.1"
   }
 }

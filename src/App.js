@@ -10,7 +10,8 @@ import Splash from './pages/Splash';
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter
+        basename="/puppet">
         <div>
           <Route exact path="/" component={Splash} />
           <Route path="/dashboard" component={Dashboard} />

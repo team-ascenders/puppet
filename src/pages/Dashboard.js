@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import IconButton from '@material-ui/core/IconButton';
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
@@ -24,7 +29,7 @@ class Dashboard extends Component {
     super(props);
     
     this.state = {
-      sections: defaultSections,
+      customSections: [],
       modalOpen: false,
       voice: 'en-US-Wavenet-D'
     }
@@ -44,11 +49,33 @@ class Dashboard extends Component {
       });
   }
 
-  // TODO: Implement these
-  import() {
+  handleFileImport = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    var file = event.target.files[0];
+    var fileReader = new FileReader( );
+    fileReader.onload = (event) => {
+      var newSections = JSON.parse(event.target.result);
+      var sections = this.state.customSections;
+
+      this.setState({ customSections: sections.concat(newSections) });
+    };
+    fileReader.readAsText( file );
   }
 
-  export() {
+  import = () => {
+    this.upload.click();
+  }
+
+  export = () => {
+    var jsonData = JSON.stringify(this.state.customSections);
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonData);
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "puppet-responses.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
   }
 
   openModal = () => {
@@ -60,16 +87,21 @@ class Dashboard extends Component {
   }
 
   saveSection = () => {
-    var sections = this.state.sections;
+    var sections = this.state.customSections;
     var newSection = this.builder.getSections();
 
     sections.push(newSection);
 
-    this.setState({ sections: sections });
+    this.setState({ customSections: sections });
     this.closeModal();
   }
 
+  handleChangeVoice = event => {
+    this.setState({ voice: event.target.value });
+  };
+
   render() {
+    const sections = defaultSections.concat(this.state.customSections);
     return (
       <div className="container">
         <Modal 
@@ -103,26 +135,49 @@ class Dashboard extends Component {
           </Paper>
         </Modal>
         <Paper className="paper-container">
-          { this.state.sections.map((section, idx) => (
-              <InputSection
-                data={section}
-                key={idx}
-                onSend={this.sendText} />
-            ))}
-            <InputSection
-                data={['%input%']}
-                onSend={this.sendText} />
+            <div className="body">
+              <div className="inputs">
+                { sections.map((section, idx) => (
+                  <InputSection
+                    data={section}
+                    key={idx}
+                    onSend={this.sendText} />
+                ))}
+                <InputSection
+                    data={['%input%']}
+                    onSend={this.sendText} />
+              </div>
+              <div className="voice-box">
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Voice</FormLabel>
+                  <RadioGroup
+                    name="gender1"
+                    value={this.state.voice}
+                    onChange={this.handleChangeVoice}>
+                    <FormControlLabel value="en-US-Wavenet-A" control={<Radio />} label="Wavenet A (Male)"/>
+                    <FormControlLabel value="en-US-Wavenet-B" control={<Radio />} label="Wavenet B (Male)" />
+                    <FormControlLabel value="en-US-Wavenet-D" control={<Radio />} label="Wavenet D (Male)" />
+                    <FormControlLabel value="en-US-Wavenet-C" control={<Radio />} label="Wavenet C (Female)" />
+                    <FormControlLabel value="en-US-Wavenet-E" control={<Radio />} label="Wavenet E (Female)" />
+                    <FormControlLabel value="en-US-Wavenet-F" control={<Radio />} label="Wavenet F (Female)" />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
             <div className="footer">
-              <Button 
-                disabled
+              <input
+                type="file"
+                ref={(ref) => this.upload = ref}
+                style={{display: 'none'}}
+                onChange={this.handleFileImport} />
+              <Button
                 onClick={this.import}
                 className="footer-button"
                 variant="contained" 
                 color="primary">
                 Import
               </Button>
-              <Button 
-                disabled
+              <Button
                 onClick={this.export}
                 className="footer-button"
                 variant="contained" 
