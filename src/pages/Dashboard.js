@@ -32,7 +32,7 @@ class Dashboard extends Component {
     this.state = {
       customSections: [],
       modalOpen: false,
-      voice: 'en-US-Wavenet-D'
+      voice: 'en-US-Wavenet-E'
     }
 
     this.pubnub = new PubNubReact({

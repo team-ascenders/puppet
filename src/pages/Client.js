@@ -21,7 +21,7 @@ class Client extends Component {
 
   handleMessageReceived = (response) => {
     var message = response.message;
-    console.log(message);
+    
     if (message === 'gotoinvision') {
       this.setState({
         redirect: true
