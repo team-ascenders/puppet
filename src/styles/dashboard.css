@@ -35,6 +35,12 @@
     padding-right: 10px;
 }
 
+.scrollable {
+    position: relative;
+    max-height: 50vh;
+    overflow:auto;
+}
+
 .iconButton {
     display: inline-flex;
 }

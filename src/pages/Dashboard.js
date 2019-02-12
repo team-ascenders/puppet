@@ -20,7 +20,8 @@ import InputBuilder from '../components/InputBuilder';
 const defaultSections = [
   ["Hi","%input%","how's your day so far?"],
   ["What would you like to talk about in particular?"],
-  ["What's going on today?"]
+  ["What's going on today?"],
+  ["Can you tell me more about that?"],
 ]
 
 const apiUrl = "https://puppet-230708.appspot.com"
@@ -154,12 +155,14 @@ class Dashboard extends Component {
         <Paper className="paper-container">
             <div className="body">
               <div className="inputs">
+                <div className="scrollable">
                 { sections.map((section, idx) => (
                   <InputSection
                     data={section}
                     key={idx}
                     onSend={this.sendText} />
                 ))}
+                </div>
                 <InputSection
                     data={['%input%']}
                     onSend={this.sendText} />

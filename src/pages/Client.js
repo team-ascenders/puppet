@@ -15,17 +15,14 @@ class Client extends Component {
 
     this.state = {
       url: '',
-      redirect: false
     }
   }
 
   handleMessageReceived = (response) => {
     var message = response.message;
-    
+
     if (message === 'gotoinvision') {
-      this.setState({
-        redirect: true
-      })
+      window.location = 'https://invis.io/3RQGIJF2H5C#/346229432_S1/';
     }
     else {
       var payload = JSON.parse(message);
@@ -53,12 +50,6 @@ class Client extends Component {
     });
   }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      window.location = 'https://invis.io/3RQGIJF2H5C#/346229432_S1/';
-    }
-  }
-
   componentWillUnmount() {
       this.pubnub.unsubscribe({ channels: ['default'] });
   }
@@ -66,7 +57,6 @@ class Client extends Component {
   render() {
     return (
       <div className="container">
-        {this.renderRedirect()}
         <div className="hero"></div>
         <div className="speechOut"></div>
         <ReactAudioPlayer
