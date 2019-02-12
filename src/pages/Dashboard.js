@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
@@ -33,7 +34,9 @@ class Dashboard extends Component {
     this.state = {
       customSections: [],
       modalOpen: false,
-      voice: 'en-US-Wavenet-E'
+      voice: 'en-US-Wavenet-E',
+      snackOpen: false,
+      snackMessage: ''
     }
 
     this.pubnub = new PubNubReact({
@@ -52,6 +55,21 @@ class Dashboard extends Component {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  sendMessage = (message) => {
+    var payload = {
+      type: 'internal',
+      message: message
+    };
+
+    this.pubnub.publish({
+      message: JSON.stringify(payload),
+      channel: 'default'
+    },
+    function(status, response) {
+      if (status.error) { console.log(status); }
+    });
   }
 
   handleFileImport = (event) => {
@@ -106,17 +124,60 @@ class Dashboard extends Component {
   };
 
   kickToInvision = () => {
+    var payload = { type: 'command', command: 'gotoinvision' };
     this.pubnub.publish({
-      message: 'gotoinvision',
+      message: JSON.stringify(payload),
       channel: 'default'
     },
     function(status, response) {
-      if (status.error) {
-        console.log(status);
-      }
-      else { console.log(response); }
+      if (status.error) { console.log(status); }
     });
   };
+
+  handleMessageReceived = (response) => {
+    var message = response.message;
+    var payload = JSON.parse(message);
+      
+    if (payload.type === 'internal') {
+      
+      this.setState({
+        snackOpen: true,
+        snackMessage: payload.message,
+      });
+    }
+  };
+
+  handleError = (status) => {
+    if (status.category === 'PNUnknownCategory') {
+      console.log(status.errorData.message);
+    }
+  };
+
+  handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({
+      snackOpen: false,
+      snackMessage: '',
+    });
+  }
+
+  componentWillMount() {
+    this.pubnub.subscribe({
+      channels: ['default'],
+      withPresence: false
+    });
+    this.pubnub.addListener({
+      status: this.handleError,
+      message: this.handleMessageReceived
+    });
+  }
+
+  componentWillUnmount() {
+      this.pubnub.unsubscribe({ channels: ['default'] });
+  }
 
   render() {
     const sections = defaultSections.concat(this.state.customSections);
@@ -166,6 +227,11 @@ class Dashboard extends Component {
                 <InputSection
                     data={['%longform%']}
                     onSend={this.sendText} />
+                <div className="vertical-spacer" />
+                <FormLabel component="legend">Internal Chat</FormLabel>
+                <InputSection
+                  data={['%longform%']}
+                  onSend={this.sendMessage} />
               </div>
               <div className="voice-box">
                 <FormControl component="fieldset">
@@ -220,6 +286,16 @@ class Dashboard extends Component {
               </Button>
             </div>
         </Paper>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          autoHideDuration={6000}
+          open={this.state.snackOpen}
+          onClose={this.handleSnackClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.snackMessage}</span>}
+        />
       </div>
     );
   }

@@ -14,7 +14,7 @@ class InputSection extends Component {
         for (var idx = 0; idx < data.length; idx ++) {
             var token = data[idx];
 
-            if (token === '%input%') {
+            if (token === '%input%' || token === '%longform%') {
                 var input = this.refs[String(idx)];
 
                 text += input.getText();

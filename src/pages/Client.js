@@ -20,16 +20,16 @@ class Client extends Component {
 
   handleMessageReceived = (response) => {
     var message = response.message;
-
-    if (message === 'gotoinvision') {
-      window.location = 'https://invis.io/3RQGIJF2H5C#/346229432_S1/';
-    }
-    else {
-      var payload = JSON.parse(message);
+    var payload = JSON.parse(message);
+      
+    if (payload.type === 'audio') {
       var audioUrl = payload.url;
-
-      this.setState({ url: '' });
       this.setState({ url: audioUrl });
+    }
+    else if (payload.type === 'command') {
+      if (payload.command === 'gotoinvision') {
+        window.location = 'https://invis.io/3RQGIJF2H5C#/346229432_S1/';
+      }
     }
   };
 
