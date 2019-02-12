@@ -22,7 +22,13 @@ const defaultSections = [
   ["Hi","%input%","how's your day so far?"],
   ["What would you like to talk about in particular?"],
   ["What's going on today?"],
-  ["Can you tell me more about that?"],
+  ["Can you tell me more about","%input%","?"],
+  ["Why is ","%input%"," important to you?"],
+  ["Why was your day","%input%","?"],
+  ["Why else was your day","%input%","?"],
+  ["What's something you can do to get more","%input%","?"],
+  ["That sounds good!"],
+  ["Want me to put it on your to do list?"],
 ]
 
 const apiUrl = "https://puppet-230708.appspot.com"
