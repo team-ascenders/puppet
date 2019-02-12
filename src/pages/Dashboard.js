@@ -42,8 +42,10 @@ class Dashboard extends Component {
       modalOpen: false,
       voice: 'en-US-Wavenet-E',
       snackOpen: false,
-      snackMessage: ''
+      snackMessage: '',
     }
+
+    this.commandlog = [];
 
     this.pubnub = new PubNubReact({
       publishKey: 'pub-c-35c0a342-eb63-440b-b688-89d8ced6f499',
@@ -107,6 +109,17 @@ class Dashboard extends Component {
     downloadAnchorNode.remove();
   }
 
+  catchConvo = () => {
+    var csvData = this.commandlog.join("\n");
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(csvData);
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "puppet-log.csv");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
   openModal = () => {
     this.setState({modalOpen: true});
   }
@@ -145,11 +158,13 @@ class Dashboard extends Component {
     var payload = JSON.parse(message);
       
     if (payload.type === 'internal') {
-      
       this.setState({
         snackOpen: true,
         snackMessage: payload.message,
       });
+    }
+    else if (payload.type === 'audio') {
+      this.commandlog.push(payload.text);
     }
   };
 
@@ -282,6 +297,13 @@ class Dashboard extends Component {
                 variant="contained" 
                 color="primary">
                 Add New...
+              </Button>
+              <Button 
+                onClick={this.catchConvo}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Download Log
               </Button>
               <Button
                 onClick={this.kickToInvision}
