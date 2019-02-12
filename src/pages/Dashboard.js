@@ -164,7 +164,7 @@ class Dashboard extends Component {
                 ))}
                 </div>
                 <InputSection
-                    data={['%input%']}
+                    data={['%longform%']}
                     onSend={this.sendText} />
               </div>
               <div className="voice-box">

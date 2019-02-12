@@ -26,6 +26,8 @@ class InputTextField extends Component {
     render() {
         return (
             <TextField
+                multiline={this.props.longform}
+                fullWidth={this.props.longform}
                 onChange={this.handleChanged}
                 label="text" />
         );

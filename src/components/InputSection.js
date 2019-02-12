@@ -42,7 +42,16 @@ class InputSection extends Component {
                             ref={String(idx)} />
                     </div>
                 );
-            } else {
+            }
+            else if (token === '%longform%') {
+                views.push(
+                    <InputTextField
+                        longform
+                        ref={String(idx)}
+                        key={idx} />
+                );
+            }
+            else {
                 views.push(
                     <h4
                         id={String(idx)}
