@@ -14,16 +14,26 @@ class Client extends Component {
     this.pubnub.init(this);
 
     this.state = {
-      url: ''
+      url: '',
+      redirect: false
     }
   }
 
-  handleMessageReceived = (message) => {
-    var payload = JSON.parse(message.message);
-    var audioUrl = payload.url;
+  handleMessageReceived = (response) => {
+    var message = response.message;
+    console.log(message);
+    if (message === 'gotoinvision') {
+      this.setState({
+        redirect: true
+      })
+    }
+    else {
+      var payload = JSON.parse(message);
+      var audioUrl = payload.url;
 
-    this.setState({ url: '' });
-    this.setState({ url: audioUrl });
+      this.setState({ url: '' });
+      this.setState({ url: audioUrl });
+    }
   };
 
   handleError = (status) => {
@@ -43,12 +53,20 @@ class Client extends Component {
     });
   }
 
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      window.location = 'https://invis.io/3RQGIJF2H5C#/346229432_S1/';
+    }
+  }
+
   componentWillUnmount() {
       this.pubnub.unsubscribe({ channels: ['default'] });
   }
+
   render() {
     return (
       <div className="container">
+        {this.renderRedirect()}
         <div className="hero"></div>
         <div className="speechOut"></div>
         <ReactAudioPlayer

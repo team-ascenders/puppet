@@ -10,6 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import IconButton from '@material-ui/core/IconButton';
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
+import PubNubReact from 'pubnub-react';
 
 import InputSection from '../components/InputSection';
 import '../styles/dashboard.css';
@@ -19,7 +20,7 @@ import InputBuilder from '../components/InputBuilder';
 const defaultSections = [
   ["Hi","%input%","how's your day so far?"],
   ["What would you like to talk about in particular?"],
-  ["What's in your orbit?"]
+  ["What's going on today?"]
 ]
 
 const apiUrl = "https://puppet-230708.appspot.com"
@@ -33,6 +34,12 @@ class Dashboard extends Component {
       modalOpen: false,
       voice: 'en-US-Wavenet-D'
     }
+
+    this.pubnub = new PubNubReact({
+      publishKey: 'pub-c-35c0a342-eb63-440b-b688-89d8ced6f499',
+      subscribeKey: 'sub-c-634d2abe-28df-11e9-991a-bee2ac9fced0'
+    });
+    this.pubnub.init(this);
   }
 
   sendText = (text) => {
@@ -40,9 +47,6 @@ class Dashboard extends Component {
       .post(apiUrl + '/broadcast', {
         text: text,
         voice: this.state.voice,
-      })
-      .then((response) => {
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -98,6 +102,19 @@ class Dashboard extends Component {
 
   handleChangeVoice = event => {
     this.setState({ voice: event.target.value });
+  };
+
+  kickToInvision = () => {
+    this.pubnub.publish({
+      message: 'gotoinvision',
+      channel: 'default'
+    },
+    function(status, response) {
+      if (status.error) {
+        console.log(status);
+      }
+      else { console.log(response); }
+    });
   };
 
   render() {
@@ -190,6 +207,13 @@ class Dashboard extends Component {
                 variant="contained" 
                 color="primary">
                 Add New...
+              </Button>
+              <Button
+                onClick={this.kickToInvision}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Go To Invision
               </Button>
             </div>
         </Paper>
