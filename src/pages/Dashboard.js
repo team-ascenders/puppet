@@ -110,7 +110,7 @@ class Dashboard extends Component {
   }
 
   catchConvo = () => {
-    var csvData = this.commandlog.join("\n");
+    var csvData = "text,url\n" + this.commandlog.join("\n");
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(csvData);
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
