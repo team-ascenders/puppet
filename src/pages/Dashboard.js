@@ -164,7 +164,7 @@ class Dashboard extends Component {
       });
     }
     else if (payload.type === 'audio') {
-      this.commandlog.push(payload.text);
+      this.commandlog.push(payload.text + "," + payload.url);
     }
   };
 
