@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { SentimentSatisfied, SentimentDissatisfied, SentimentVeryDissatisfied } from '@material-ui/icons';
+import { SentimentVerySatisfied, SentimentDissatisfied, SentimentVeryDissatisfied } from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
 
 import '../styles/splash.css';
@@ -11,13 +11,14 @@ class Splash extends Component {
     return (
       <div>
         <div className="container">
-          <h1>Hi Alice, what is your mood?</h1>
+          <h1>Hi, what is your mood?</h1>
+          <div className="fab-container">
             <Fab
               className="startButton"
               component={Link}
               to="/client"
               color="primary">
-              <SentimentSatisfied />
+              <SentimentVerySatisfied />
             </Fab>
             <Fab
               className="startButton"
@@ -33,11 +34,12 @@ class Splash extends Component {
               color="primary">
               <SentimentVeryDissatisfied />
             </Fab>
+          </div>
         </div>
         <div className="container">
           <Link
             to="/dashboard">
-            Dashboard ➡️
+            Dashboard <span role="img" aria-label="arrow">➡️</span>
           </Link>
         </div>
       </div>
