@@ -1,7 +1,7 @@
 {
   "main.css": "/puppet/static/css/main.174b2359.chunk.css",
-  "main.js": "/puppet/static/js/main.a183d67d.chunk.js",
-  "main.js.map": "/puppet/static/js/main.a183d67d.chunk.js.map",
+  "main.js": "/puppet/static/js/main.c8cee5eb.chunk.js",
+  "main.js.map": "/puppet/static/js/main.c8cee5eb.chunk.js.map",
   "static/css/1.8d0fc8d7.chunk.css": "/puppet/static/css/1.8d0fc8d7.chunk.css",
   "static/js/1.14af8741.chunk.js": "/puppet/static/js/1.14af8741.chunk.js",
   "static/js/1.14af8741.chunk.js.map": "/puppet/static/js/1.14af8741.chunk.js.map",
@@ -11,6 +11,6 @@
   "static/css/main.174b2359.chunk.css.map": "/puppet/static/css/main.174b2359.chunk.css.map",
   "static/css/1.8d0fc8d7.chunk.css.map": "/puppet/static/css/1.8d0fc8d7.chunk.css.map",
   "index.html": "/puppet/index.html",
-  "precache-manifest.68cccd37dde515e56eced7db9154ac6b.js": "/puppet/precache-manifest.68cccd37dde515e56eced7db9154ac6b.js",
+  "precache-manifest.1410b38883a9dc58f4a5b40d74d7f4a6.js": "/puppet/precache-manifest.1410b38883a9dc58f4a5b40d74d7f4a6.js",
   "service-worker.js": "/puppet/service-worker.js"
 }
