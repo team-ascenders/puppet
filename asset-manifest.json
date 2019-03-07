@@ -1,16 +1,16 @@
 {
   "main.css": "/puppet/static/css/main.174b2359.chunk.css",
-  "main.js": "/puppet/static/js/main.0b3ee5e1.chunk.js",
-  "main.js.map": "/puppet/static/js/main.0b3ee5e1.chunk.js.map",
+  "main.js": "/puppet/static/js/main.a183d67d.chunk.js",
+  "main.js.map": "/puppet/static/js/main.a183d67d.chunk.js.map",
   "static/css/1.8d0fc8d7.chunk.css": "/puppet/static/css/1.8d0fc8d7.chunk.css",
   "static/js/1.14af8741.chunk.js": "/puppet/static/js/1.14af8741.chunk.js",
   "static/js/1.14af8741.chunk.js.map": "/puppet/static/js/1.14af8741.chunk.js.map",
   "runtime~main.js": "/puppet/static/js/runtime~main.be11d79f.js",
   "runtime~main.js.map": "/puppet/static/js/runtime~main.be11d79f.js.map",
-  "static/media/index.css": "/puppet/static/media/roboto-latin-900.8c2ade50.woff",
+  "static/media/index.css": "/puppet/static/media/roboto-latin-900italic.bc833e72.woff",
   "static/css/main.174b2359.chunk.css.map": "/puppet/static/css/main.174b2359.chunk.css.map",
   "static/css/1.8d0fc8d7.chunk.css.map": "/puppet/static/css/1.8d0fc8d7.chunk.css.map",
   "index.html": "/puppet/index.html",
-  "precache-manifest.7e438542ff7a0371489bf62d28ae492a.js": "/puppet/precache-manifest.7e438542ff7a0371489bf62d28ae492a.js",
+  "precache-manifest.68cccd37dde515e56eced7db9154ac6b.js": "/puppet/precache-manifest.68cccd37dde515e56eced7db9154ac6b.js",
   "service-worker.js": "/puppet/service-worker.js"
 }
