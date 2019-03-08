@@ -16,13 +16,14 @@
 .footer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding-top: 60px;
 }
 
 .footer-button {
-    width: 140px
+    width: 140px;
 }
 
 .voice-box {
@@ -76,6 +77,14 @@
     justify-content: flex-start;
 }
 
+.wordsection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
 .buttons {
     padding-left: 20px;
 }
@@ -90,4 +99,3 @@ h4 {
 .vertical-spacer {
     height: 40px;
 }
-

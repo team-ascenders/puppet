@@ -17,21 +17,17 @@ import InputSection from '../components/InputSection';
 import '../styles/dashboard.css';
 import '../styles/global.css';
 import InputBuilder from '../components/InputBuilder';
+import WordBuilder from '../components/WordBuilder';
 
 const defaultSections = [
-  ["Hi","%input%","how's your day so far?"],
-  ["What would you like to talk about in particular?"],
-  ["What's going on today?"],
-  ["Can you tell me more about","%input%","?"],
-  ["Why is ","%input%"," important to you?"],
-  ["Why was your day","%input%","?"],
-  ["Why else was your day","%input%","?"],
-  ["What's something you can do to get more","%input%","?"],
-  ["That sounds good!"],
-  ["Want me to put it on your to do list?"],
+  ["Hey", "%input%", "how are you feeling today?"],
+  ["What was something good that happened today?"],
+  ["What was something bad that happened today?"],
+  ["What is something coming up that you’re worried about?"],
+  ["Can I help with that by setting a reminder to do something?"]
 ]
 
-const apiUrl = "https://puppet-230708.appspot.com"
+const apiUrl = "https://puppet-233810.appspot.com"
 
 class Dashboard extends Component {
   constructor(props) {
@@ -43,6 +39,7 @@ class Dashboard extends Component {
       voice: 'en-US-Wavenet-E',
       snackOpen: false,
       snackMessage: '',
+      wordModalOpen: false,
     }
 
     this.commandlog = [];
@@ -143,7 +140,54 @@ class Dashboard extends Component {
   };
 
   kickToInvision = () => {
-    var payload = { type: 'command', command: 'gotoinvision' };
+    this.execute('gotoinvision');
+  };
+
+  goToActive = () => {
+    this.execute('active');
+  }
+
+  goToEmpty = () => {
+    this.execute('empty');
+  }
+
+  goToFtui = () => {
+    this.execute('ftui');
+  }
+
+  kill = () => {
+    this.execute('kill');
+  }
+
+  openWordModal = () => {
+    this.setState({ wordModalOpen: true });
+  }
+
+  closeWordModal = () => {
+    this.setState({ wordModalOpen: false });
+  }
+
+  sendWords = () => {
+    var terms = this.wordBuilder.getWords();
+    var payload = {
+      type: 'terms',
+      terms: terms
+    };
+
+    this.pubnub.publish({
+      message: JSON.stringify(payload),
+      channel: 'default'
+    },
+    function(status, response) {
+      if (status.error) { console.log(status); }
+
+      
+    });
+    this.closeWordModal();
+  }
+
+  execute = (command) => {
+    var payload = { type: 'command', command: command };
     this.pubnub.publish({
       message: JSON.stringify(payload),
       channel: 'default'
@@ -151,7 +195,7 @@ class Dashboard extends Component {
     function(status, response) {
       if (status.error) { console.log(status); }
     });
-  };
+  }
 
   handleMessageReceived = (response) => {
     var message = response.message;
@@ -230,6 +274,34 @@ class Dashboard extends Component {
                   variant="contained" 
                   color="primary">
                   Save
+                </Button>
+              </div>
+          </Paper>
+        </Modal>
+        <Modal
+          className="modal-container"
+          open={this.state.wordModalOpen}>
+          <Paper className="paper-modal">
+            <div className="header">
+                <IconButton
+                  onClick={this.closeModal}
+                  className="iconButton"
+                  variant="contained"
+                  color="primary">
+                  <Close />
+                </IconButton>
+              </div>
+              <WordBuilder
+                ref={(wordBuilder) => {
+                  this.wordBuilder = wordBuilder
+                }} />
+              <div className="modal-footer">
+                <Button 
+                  onClick={this.sendWords}
+                  className="footer-button"
+                  variant="contained" 
+                  color="primary">
+                  Send
                 </Button>
               </div>
           </Paper>
@@ -313,6 +385,45 @@ class Dashboard extends Component {
                 Go To Invision
               </Button>
             </div>
+            <div className="footer">
+              <Button
+                onClick={this.goToEmpty}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Go To Empty
+              </Button>
+              <Button
+                onClick={this.goToActive}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Go To Active
+              </Button>
+              <Button
+                onClick={this.openWordModal}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Send Words
+              </Button>
+              <Button
+                disabled
+                onClick={this.goToFtui}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Go To FTUI
+              </Button>
+              <Button
+                onClick={this.kill}
+                className="footer-button"
+                variant="contained" 
+                color="primary">
+                Kill App
+              </Button>
+            </div>
+            
         </Paper>
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
